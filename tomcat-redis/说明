@@ -1,0 +1,2 @@
+前后端分离开发，tomcat将session共享到redis中
+将commons-pool2-2.4.2.jar   jedis-2.8.1.jar  tomcat-redis-sessoin-manager1.2.jar放到tomcat目录的lib目录下面

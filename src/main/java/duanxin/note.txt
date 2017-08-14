@@ -1,0 +1,2 @@
+Copy rxtxSerial.dll ---> <JAVA_HOME>\jre\bin
+Copy rxtxParallel.dll ---> <JAVA_HOME>\jre\bin

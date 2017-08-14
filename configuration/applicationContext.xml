@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+	<import resource="classpath:spring-quartz.xml"/>
+	<!-- <import resource="classpath:spring-redis.xml"/> -->
+	<!-- context:property-placeholder 只能引入一个properties文件，如果要多个，则可以多次配置，还可以设置order来配置加载的优先级 -->
+	<context:property-placeholder location="classpath:ds.properties" />
+	<context:property-placeholder location="classpath:log4j.properties" />
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="url"  value="${mysql.url}"/>
+		<property name="driverClassName" value="${mysql.driver}" />
+		<property name="username" value="${mysql.username}" />
+		<property name="password" value="${mysql.password}" />
+		<property name="maxIdle" value="${dbcp2.maxIdle}" />
+		<property name="minIdle" value="${dbcp2.minIdle}" />
+		<property name="initialSize" value="${dbcp2.initialSize}" />
+		<property name="timeBetweenEvictionRunsMillis" value="${dbcp2.timeBetweenEvictionRunsMillis}" />
+		<property name="poolPreparedStatements" value="${dbcp2.poolPreparedStatements}" />
+		<property name="maxOpenPreparedStatements" value="${dbcp2.maxOpenPreparedStatements}" />
+		<property name="removeAbandonedTimeout" value="${dbcp2.removeAbandonedTimeOut}" />
+
+		<!-- 申请连接时执行validationQuery检测连接是否有效，配置为true会降低性能 -->
+		<property name="testOnBorrow" value="${dbcp2.testOnBorrow}" />
+
+	<!-- 	归还连接时执行validationQuery检测连接是否有效，配置为true会降低性能 -->
+		<property name="testOnReturn" value="${dbcp2.testOnReturn}" />
+
+		<!-- 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，
+			如果空闲时间大于 timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。 -->
+		<property name="testWhileIdle" value="${dbcp2.testWhileIdle}" />
+
+		<!-- 用来检测连接是否有效的sql，要求是一个查询语句,
+		如果validationQuery为 null，testOnBorrow、testOnReturn、testWhileIdle都不起其作用。 -->
+		<property name="validationQuery" value="${dbcp2.validationQuery}" /> 
+		
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath:/**/mapper/*.xml" />
+		<property name="typeAliasesPackage" value="**.model" />
+	</bean>
+	
+		<!-- 配置sqlSession到bean中，线程安全 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean> 
+	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="cn.zouyang.**.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+	
+	<!-- spring JdbcTemplate -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- 事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- 启用事务注解 -->
+	<tx:annotation-driven/>
+	<!-- XML配置事务 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" isolation="DEFAULT" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+	<!-- XML配置aop -->
+	<!-- <bean id="aopTest" class="aop.AopTest"></bean> -->
+	<!-- <aop:config>
+		<aop:aspect id="aopAspect" ref="aopTest">
+			<aop:pointcut expression="execution(* cn.zouyang.test.service.*.*(..))" id="pointCut"/>
+			<aop:before method="beforePointCut" pointcut-ref="pointCut"/>
+			<aop:after method="afterPointCut" pointcut-ref="pointCut"/>
+		</aop:aspect>
+	</aop:config> -->
+</beans>

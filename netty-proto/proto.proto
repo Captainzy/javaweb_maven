@@ -1,0 +1,88 @@
+syntax = "proto3";
+package Proto;
+option java_package = "netty";
+option java_outer_classname = "Proto";
+
+message Cookie {
+	string sessionId = 1;
+	string atomId = 2;
+}
+
+message Request {
+	int32 code = 1;
+}
+
+message Result {
+	int32 code = 1;
+	string text = 2;
+	string description = 3;
+}
+
+message Pc {
+	message Endpoint {
+		Cookie cookie = 1;
+		Request request = 2;
+		oneof Command {
+			Login login = 1001;
+			Logout logout = 1002;
+			Config config = 1003;
+		}
+	}
+
+	message Server {
+		Cookie cookie = 1;
+		Result result = 2;
+		oneof Command {
+			LoginRet loginRet = 1001;
+			LogoutRet logoutRet = 1002;
+			ConfigRet configRet = 1004;
+			
+			ForceOffline forceOffline = 2001;
+		}
+	}
+	
+	//登录
+	message Login {
+		string username = 1;
+		string password = 2;
+	}
+
+	//登录结果
+	message LoginRet {
+		string userId = 1;	//用户ID
+		string name = 2;	//姓名
+	}
+
+	//登出
+	message Logout {
+	}
+	
+	//登出结果
+	message LogoutRet {
+	}
+	
+	//强制下线
+	message ForceOffline {
+		string username = 1;	//用户名
+	}
+	
+	//请求终端参数
+	message Config {
+		string endpointId = 1;	//终端ID
+	}
+	
+	//终端参数
+	message ConfigRet {
+		string company = 1;	//公司名称
+	}
+}
+
+message Web {
+	message Server {
+		
+	}
+
+	message Endpoint {
+		
+	}
+}

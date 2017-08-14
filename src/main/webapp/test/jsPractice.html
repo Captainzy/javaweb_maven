@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script style="text/javascript" charset="UTF-8" src="../StaticResources/js/jquery-1.12.1.min.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+    Circle.pi = 3.14;
+    $(document).ready(function(){
+        var obj = new Object();
+        var array = new Array();
+        obj.name = "test";
+        obj.child = new Circle(3)
+        var objChild = new Object();
+        objChild.name = function(){
+            return "objChild name";
+        };
+        Circle.Pi = "this i ";
+        array[0] = obj;
+        alert(array[0].name);
+    });
+    function Circle(r){
+        this.t = "123";
+        this.s =  Circle.pi*r;
+    }
+</script>
+</body>
+</html>

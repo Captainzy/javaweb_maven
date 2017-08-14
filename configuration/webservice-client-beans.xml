@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:jaxws="http://cxf.apache.org/jaxws"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://cxf.apache.org/jaxws http://cxf.apache.org/jaxws">
+  	<!-- 由于项目启动时就会完成连接的操作，所以这里必须将项目跑在两个不同的tomcat上面进行测试，避免spring启动初始化bean的时候不存在的问题
+  		显示开发中的webservice服务端和客户端肯定不会在同一个tomcat中
+  	 -->
+<!--  	<jaxws:client
+		id="orderProcess"
+		serviceClass="webservice.ws2.client.OrderProcess" 
+		address="http://localhost:8181/javaweb/CXF/OrderProcess">
+		<jaxws:inInterceptors>
+			<bean class="webservice.ws2.interceptor.OrderInterceptor" />	   	
+			<bean class="org.apache.cxf.interceptor.LoggingInInterceptor" />
+			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+	   </jaxws:inInterceptors>
+	</jaxws:client> -->
+	
+</beans>

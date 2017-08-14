@@ -1,0 +1,8 @@
+H5中新增的标签可能常用的有：<canvas>、<audio>、<video>、<source>、<embed>、<track>、<datalist>、<output>、<dialog>、<footer>、
+<meter>、<nav>、<progress>
+
+拖放是H5的一个特性。draggable="true"、ondragstart/ondragover、ondrop、event.preventDefault()
+
+input标签的多个新增的属性，date,mutiple(可以实现选择多个文件),datalist
+
+web存储:localStorage和sessionStorage

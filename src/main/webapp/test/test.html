@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>jquery左右滑动效果的实现</title>
+    <script type="text/javascript" src="../StaticResources/js/jquery-1.12.1.min.js"></script>
+    <script type="text/javascript">
+        $().ready(function () {
+            $("#bta").click(function () {
+                $("#unit").stop(true, false).animate({"left": 0}, 1000);
+            });
+            $("#btb").click(function () {
+                $("#unit").stop(true, false).animate({"left": -300}, 1000);
+            })
+        });
+    </script>
+    <style type="text/css">
+        * { padding: 0; margin: 0;}
+        #box {width: 300px; height: 150px; margin-bottom: 50px; position: relative; overflow: hidden; }
+        #unit { width: 600px; position: absolute; }
+        #unit div {float: left; width: 300px; height: 150px;}
+        #bga {background-color: #F30;}
+        #bta, #btb { float: left; width: 50px; padding-right: 50px; color: #FFF; cursor: pointer;}
+    </style>
+</head>
+<body>
+<div style="width:800px; height:300px; padding-top:100px; background-color:#999; margin:0 auto;">
+    <div id="box">
+        <div id="unit">
+            <div id="bga">框一</div>
+        </div>
+    </div>
+    <div id="bta">左</div>
+    <div id="btb">右</div>
+</div>
+</body>
+</html>

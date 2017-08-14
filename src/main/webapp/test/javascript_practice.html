@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+		.line{
+			z-index:-10;	
+		}
+		.verticalLine{
+			position:absolute;
+			height:98%;
+			border-right:1px solid #000;
+
+		}
+		.levelLine{
+			position:absolute;
+			width:98%;
+			border-top:1px solid #000;
+		}
+		.visibleBox{
+			overflow:hidden;
+			transition:height 1s;
+		}
+		
+    </style>
+</head>
+
+<body>
+	<div style="position:absolute;">
+		<p>js 测验</p>
+		<button onKeydown="keydownTest(event)" onclick="eventTest(event)">Event对象测试</button>
+		<button onclick="thisTest(this)" value="123456">this Test</button>
+		<button id="b3">addListenerTest</button>
+		<button onclick="openNewWindow()">新窗口打开百度搜索页面</button>
+		<button onclick="testLocalStorage()">测试localStorage</button>
+		<button onclick="setCookie('name','zouyang')">设置一个cookie值</button>
+		<button onclick="testMethod()">JS对象测试</button>
+		<button id="packageObj" onclick="testPackagingObj()">JS对象封装测试</button>
+		<button onclick="testConstructor()">JS对象继承测试</button>
+		<button onclick="testOneOffObj()">一次性对象测试</button>
+		<button onclick="testAjax()">原生JS实现ajax测试</button>
+		<br>
+		<hr id="setTimeTest" style="height:10px;wieght:100px;border:none;background-color:black;">
+		<p>鼠标的坐标：</p>
+		<div>
+			X:<span id="locateX"></span><br>
+			Y:<span id="locateY"></span><br>
+		</div>
+		<br>
+		试试拖动框内图片：
+		<div id="box" style="width:100px;height:100px;border:1px solid black;">
+			<img id="imgBox" style="position:absolute;width:50px;height:50px;background-color:red;border:none;" onmouseup="cancelDragBox()" onmousedown="selectDragBox(this,event)"/>
+		</div>
+		<hr>
+		<div id="slideTest" onclick="slideContent()" style="height:50px;width:100px;border:1px solid black;">点击显示滑动效果</div>
+		<div id="content" class="visibleBox" style="width:100px;height:100px;background-color:green;">这是内容区域</div>
+		
+	</div>
+	<div id="vLine" class="line verticalLine"></div>
+	<div id="lLine" class="line levelLine" ></div>
+	
+	<script type="text/javascript" charset="UTF-8">
+		
+		window.onload = function (){
+			var str = "cats,dogs,birds,horses";
+			var a = str.split(",")[2];
+			//alert(a);
+			var s = "The fun of functions is that they are functional.";
+			var rgExp = /(\bfun\b)/;
+			var test = s.replace(rgExp,"power");
+			//alert(test);
+			var date = new Date();
+			date.setHours(date.getHours()+168);
+			//alert(date.toString());
+			var strToAlter = "apple.orange-strawberry,lemon-.lime";
+			var puncPattern = /\.|-|,/g;
+			var str2 = strToAlter.replace(puncPattern,"#");
+			//alert(str2);
+			
+			//var p = prompt("输入一个数值");
+			//alert("p阶乘的值为："+digun(p));
+			var arr = new Array(1,2,3);
+			arr = change(arr);
+			//alert(arr);
+			
+			var methodObj = "这是一句话";
+			//methodObj = methodObject(methodObj,methodTest);
+			//alert(methodObj);
+			
+			document.getElementById("b3").addEventListener("click",addListenerTest);
+			document.addEventListener("mousemove",docListener);
+			var timeout = setTimeout(changeColor,1000)
+			//clearTimeout(timeout)
+			setInterval(changeColor,2000);
+
+			setTimeout(callFunction,1000,"参数A","参数B");
+
+			//检查cookie是否启用
+			if(navigator.cookieEnabled){
+				//alert("cookie 已启用");
+			}else{
+				//alert("cookie 未启用");
+			}
+
+			localStorage.keyTest = "localStorage test";
+
+		}
+		
+		var digun = function(num){
+			if(1 == num){
+				return num;
+			}else{
+				return num*digun(num-1);
+			}
+		}
+		
+		var change = function(arr){
+				return new Array("one","two","three");
+		}
+		
+		var methodObject = function(obj,method){
+			return method(obj);
+		}
+		
+		var methodTest = function(obj){
+			alert(obj);
+			return "这是另一段话";
+		}
+
+		var eventTest = function(e){
+			alert(e.type);
+		}
+
+		var keydownTest = function(e){
+			alert(e.type+"  "+e.keyCode);
+		}
+
+		var thisTest = function(obj){
+			alert(obj.value);
+		}
+
+		var addListenerTest = function(){
+			alert("listener test");
+		}
+
+		var mousePosition = function(x,y){
+			this.x = x;
+			this.y = y;
+		}
+		var dragObject;
+		var mouseOffset;
+		var selectDragBox = function(obj,e){
+			dragObject = obj;
+			mouseOffset = new mousePosition(e.offsetX,e.offsetY);
+		}
+
+		var cancelDragBox = function(){
+			dragObject = null;
+		}
+
+		var docListener = function(obj){
+			if(dragObject!=null){
+				var xOffset = obj.clientX - mouseOffset.x-8;
+				var yOffset = obj.clientY - mouseOffset.y-8;
+				dragObject.style.left = xOffset+"px";
+				dragObject.style.top = yOffset+"px";
+			}
+			document.getElementById("locateX").innerHTML=obj.clientX;
+			document.getElementById("locateY").innerHTML=obj.clientY;
+			document.getElementById("vLine").style.left=obj.clientX+"px";
+			document.getElementById("lLine").style.top=obj.clientY+"px";
+		}
+
+		var openNewWindow = function(){
+			var optionString = "width=1000,height=500,location=no,top=100,left=200";
+			window.open("http://www.baidu.com","百度搜索",optionString)
+		}
+
+		var changeColor = function(){
+			var color = document.getElementById("setTimeTest").style.backgroundColor;
+			if(color == "black"){
+				document.getElementById("setTimeTest").style.backgroundColor = "red";
+			}else{
+				document.getElementById("setTimeTest").style.backgroundColor = "black";
+			}
+		}
+		
+		var callFunction = function(a,b,c){
+			//alert(a+"   "+b+"  "+c);
+		}
+
+		var testLocalStorage = function(){
+			alert(localStorage.keyTest);
+		}
+
+		var setCookie = function(key,value){
+			var date = new Date();
+			date.setTime(date.getTime()+60*60*60);
+			document.cookie = key + "=" + value + ";expires="+date.toGMTString()+";path='/'"
+		}
+
+		var slideContent = function(){
+			var offsetHeiht = document.getElementById("content").style.height;
+			if(offsetHeiht == "0px"){
+				document.getElementById("content").style.height = "100px";
+			}else{
+				document.getElementById("content").style.height = "0px";
+			}
+		}		
+
+		var ObjectTest = function(){
+			this.name;  //公有变量
+			var testName = "我是私有变量"; //私有变量，只能在对象内部访问
+		}
+		var testMethod = function(){
+			var obj = new ObjectTest();
+			obj.name = "我是公有变量";
+			alert(obj.name);//访问公有变量
+			alert(obj.testName);//访问私有变量，会出现undefined
+		}
+		var testMethod2 = function(){
+
+		}
+
+		var testPackagingObj = function(){
+			var obj = new PackagingObj(document.getElementById("packageObj"));
+			//调用对象方法
+			obj.method();
+		}
+
+		var PackagingObj = function(obj){
+			this.obj = obj;
+
+			this.method = function(){
+				this.obj.style.borderColor = "red";
+			}
+		}
+		
+		var testConstructor = function(){
+			var obj = new ObjDog();
+			alert(obj.species +":" +obj.size+obj.name);
+		}
+
+		var ObjAnimal = function(){
+			this.species = "动物";
+		}
+		var ObjSize = function(){
+			this.size = "大的";
+		}
+		var ObjDog = function(){
+			this.name = "小狗";
+			ObjAnimal.apply(this,arguments);
+			ObjSize.apply(this,arguments);
+			
+		}
+
+		var testOneOffObj = function(){
+			var oneOffObj = {
+				name:"张3",
+				age:23
+			}
+			alert("一次性对象："+oneOffObj.name+","+oneOffObj.age);
+		}
+
+		var testAjax = function(){
+			var data = {
+				name:"zy",
+				age:23
+			}
+			var xmlHttpRequest = new XMLHttpRequest();
+			//open(method,url,aysnc,username,password)，后面三个参数是可选
+			xmlHttpRequest.open("POST","http://localhost:8080/javaweb/test",true);
+			xmlHttpRequest.onreadystatechange = callBack;
+			xmlHttpRequest.send(data);
+		}
+		var callBack = function(){
+			var result;
+			if(this.readState == 4 && this.status == 200){//请求结束，正常返回
+				result = this.responseText;
+			}else if(this.readState == 4 && this.status != 200){
+				alert(this.status+"：服务端发生异常，请求失败");
+			}
+		}
+	</script>
+</body>
+</html>

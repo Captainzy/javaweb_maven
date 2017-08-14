@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://cxf.apache.org/jaxws http://cxf.apache.org/jaxws">
+
+	<jaxws:endpoint id="orderProcess"
+		implementor="webservice.ws2.server.OrderProcessImpl" address="/OrderProcess">
+		<jaxws:inInterceptors>
+			<bean class="webservice.ws2.interceptor.OrderInterceptor" />
+			<bean class="org.apache.cxf.interceptor.LoggingInInterceptor" />
+			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
+		</jaxws:inInterceptors>
+	</jaxws:endpoint>
+
+</beans>

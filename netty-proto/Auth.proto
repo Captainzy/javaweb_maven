@@ -1,0 +1,14 @@
+syntax = "proto3";
+option java_package = "netty";
+
+package auth;
+
+message AuthRequest{ // (1)
+	 string user_id=1;
+	 string password=2;
+}
+
+message AuthResponse{ //(2)
+	 int32 result_code=1;
+	 string result_message=2;
+}

@@ -1,0 +1,17 @@
+Command
+定义命令的接口，声明执行的方法。
+ConcreteCommand (如：ReadCommand、WriteCommand)
+命令接口实现对象，是“虚”的实现；通常会持有接收者，并调用接收者的功能来完成命令要执行的操作。
+Receiver (CommandReceiver)
+接收者，真正执行命令的对象。任何类都可能成为一个接收者，只要它能够实现命令要求实现的相应功能。
+Invoker (CommandInvoker)
+要求命令对象执行请求，通常会持有命令对象，可以持有很多的命令对象。这个是客户端真正触发命令并要求命令执行相应操作的地方，也就是说相当于使用命令对象的入口。
+Client (TestClient)
+创建具体的命令对象，并且设置命令对象的接收者。注意这个不是我们常规意义上的客户端，而是在组装命令对象和接收者，或许，把这个Client称为装配者会更好理解，因为真正使用命令的客户端是从Invoker来触发执行。
+
+命令模式：
+所有的命令会实现一个相同的命令接口Command，实现其中的执行方法，然后不同的命令类（ReadCommand、WriteCommand）里都有一个接收者（实现者）类(CommandReceiver)，
+这个接收者类实际上内部具有很多方法(readMethod()、writeMethod())，而这些方法就与不同的命令类相联系，在具体的命令类里通过调用接收者类的实现方法(ReadCommand类的
+execute()方法里调用了CommandReceiver的readMethod()方法)，这样就可以实现在不同的命令类里调用我们想调用的方法，这样以后我们想新增一些命令的时候就不会对之前的命令产生影响，比如：我们要增加一个删除命令，那么我们只需要在CommandReceiver类里面新增一个deleteMethod()方法，新建一个DeleteCommand类，
+在DeleteCommand类的execute()方法里执行CommandReceiver的deleteMethod()方法，在调用的时候只需要将DeleteCommand命令传入CommandInvoker就可以了。
+这样就降低了请求者Invoker与实现者Receiver之间的耦合，Invoker想要调用某个方法的时候，只需要传入特定的命令就行了，而不用去更改自己内部的代码。

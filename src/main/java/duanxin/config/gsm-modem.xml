@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gsm>
+	<!-- 标签说明：manufacturer短信猫厂商，cardcount短信猫可以插卡数，baudrate波特率 -->
+	<manufacturer>WAVECOM</manufacturer>
+	<cardcount>4</cardcount>
+	<baudrate>9600</baudrate>
+	<baudrate>115200</baudrate>
+</gsm>

@@ -1,0 +1,34 @@
+syntax="proto3";
+
+option java_package="netty";
+option java_outer_classname="TestProto";
+
+message Person{
+	string name = 1;
+	int32 age = 2;
+	string sex = 3;
+
+}
+
+message Animal{
+	repeated  Dog dog = 1;
+	Pig pig = 2;
+}
+
+message Dog{
+	string type = 1;
+	string name = 2;
+}
+
+message Pig{
+	string weight = 1;
+}
+
+message Company{
+	string id = 1;
+	oneof rank{
+		string name = 2;
+		string guimo = 3;
+		Pig pig = 4;
+	}
+}

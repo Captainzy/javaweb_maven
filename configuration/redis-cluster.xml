@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+	<bean id="genericObjectPoolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+		<property name="minIdle" value="8" />		
+		<property name="maxIdle" value="100"/>
+		<property name="maxTotal" value="300"/>
+		<property name="maxWaitMillis" value="1000"/>
+	</bean>
+	<bean id="jedisClusterFactory" class="redis.cluster.RedisClusterFactory">
+		<property name="jedisClusterConfig">
+			<value>classpath:redis-cluster.properties</value>
+		</property>
+		<property name="addressPrefix" value="address" />
+		<property name="jedisPoolConfig"  ref="genericObjectPoolConfig"/>
+	</bean>		
+</beans>
