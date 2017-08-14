@@ -34,6 +34,7 @@
     <servlet-name>dispatherServlet</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  <!-- 使用CXF做webservice -->
   <servlet>
     <servlet-name>CXFServlet</servlet-name>
     <servlet-class>
@@ -44,7 +45,7 @@
   <servlet-mapping>
     <servlet-name>CXFServlet</servlet-name>
     <url-pattern>/CXF/*</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> 
   <filter>
     <filter-name>characterEncodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
