@@ -64,7 +64,7 @@ public class DownloadController {
 		response.setHeader("Pragma", "no-cache");  
         response.setHeader("Cache-Control", "no-cache");  
         response.setDateHeader("Expires", 0);  
-        response.setContentType("image/jpeg");  
+        response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);  
         //浏览器支持的文件类型，一般会默认使用浏览器打开，比如txt、jpg等，会直接在浏览器中显示，如果需要提示用户保存，
   		//就要利用Content-Disposition进行一下处理，关键在于一定要加上attachment
   		//格式：headers.add("Content-Disposition", "attachment;filename=name");
