@@ -22,10 +22,8 @@ public class FilterTestA implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		System.out.println("Filter 2");
 		//转发
 		//request.getRequestDispatcher("/test").forward(request, response);
-		System.out.println("fdjskafjdkslfsd");
 		chain.doFilter(request, response);
 	}
 

@@ -60,7 +60,7 @@ public class DownloadController {
 	 */
 	@RequestMapping(value="/downloadFileByMethod_03")
 	public void downloadFileByMethod_03(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		File file = new File("C:\\Users\\TZ\\Desktop\\图片.png");
+		File file = new File("C:\\Users\\TZ\\Desktop\\安全平台整改意见.docx");
 		response.setHeader("Pragma", "no-cache");  
         response.setHeader("Cache-Control", "no-cache");  
         response.setDateHeader("Expires", 0);  
@@ -68,7 +68,9 @@ public class DownloadController {
         //浏览器支持的文件类型，一般会默认使用浏览器打开，比如txt、jpg等，会直接在浏览器中显示，如果需要提示用户保存，
   		//就要利用Content-Disposition进行一下处理，关键在于一定要加上attachment
   		//格式：headers.add("Content-Disposition", "attachment;filename=name");
-        //response.addHeader("Content-Disposition", "attachment;filename="+file.getName());
+        //避免文件名乱码
+        String fileName = new String(file.getName().toString().getBytes("UTF-8"), "iso-8859-1");
+        response.addHeader("Content-Disposition", "attachment;filename="+fileName);
         BufferedOutputStream bout = new BufferedOutputStream(response.getOutputStream());
         bout.write(FileUtils.readFileToByteArray(file));
         bout.flush();
