@@ -102,7 +102,8 @@ public class MySolrUtil {
 
     public static void solrUpdate(String coreName, Map<String, String> paramsMap) {
         String url = solrUrl + "/" + coreName;
-        SolrClient updateSolrClient = new ConcurrentUpdateSolrClient.Builder(url).withQueueSize(5).withThreadCount(5).build();
+        //HttpSolrClient 适合查询,ConcurrentUpdateSolrClient适合新增修改
+        ConcurrentUpdateSolrClient updateSolrClient = new ConcurrentUpdateSolrClient.Builder(url).withQueueSize(5).withThreadCount(5).build();
         try {
             SolrInputDocument inputDocument = new SolrInputDocument();
             for (Map.Entry<String, String> entry : paramsMap.entrySet()) {
