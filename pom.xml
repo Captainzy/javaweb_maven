@@ -406,6 +406,11 @@
             <artifactId>xmlschema-core</artifactId>
             <version>2.2.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-solrj</artifactId>
+            <version>6.6.0</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>javaweb</finalName>
