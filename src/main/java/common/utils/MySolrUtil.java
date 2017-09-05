@@ -47,22 +47,22 @@ public class MySolrUtil {
         //HttpSolrClient 适合查询,ConcurrentUpdateSolrClient适合新增修改
         HttpSolrClient httpSolrClient = new HttpSolrClient.Builder(url).build();
         SolrQuery solrQuery = new SolrQuery();
-        int beginNum = (page.getPageNo() - 1) * page.getRowsPerPage();
-        solrQuery.setStart(beginNum);
-        solrQuery.setRows(page.getRowsPerPage());
+        if(page !=null && page.getPageNo()>0&&page.getRowsPerPage()>0) {
+            int beginNum = (page.getPageNo() - 1) * page.getRowsPerPage();
+            solrQuery.setStart(beginNum);
+            solrQuery.setRows(page.getRowsPerPage());
+        }
         StringBuffer queryStr = new StringBuffer();
         queryStr.append("*:*");
         if (paramsMap != null && !paramsMap.isEmpty()) {
-            //精准查询条件,solr查询，条件加双引号就是精准查询如，name:"张三",不加双引号就是模糊查询如，name:张
             for (Map.Entry<String, String> entry : paramsMap.entrySet()) {
                 queryStr.append(" AND ");
                 queryStr.append(entry.getKey() + ":\"" + entry.getValue()+"\"");
             }
         }else if(fuzzyQueryParamsMap !=null && !fuzzyQueryParamsMap.isEmpty()){
             queryStr.append(" AND (");
-            //模糊查询的条件
             for (Map.Entry<String, String> entry : fuzzyQueryParamsMap.entrySet()) {
-                queryStr.append(entry.getKey() + ":" + entry.getValue());
+                queryStr.append(entry.getKey() + ":\"" + entry.getValue()+"\"");
                 queryStr.append(" AND ");
             }
             queryStr.delete(queryStr.length()-5,queryStr.length());
@@ -124,6 +124,28 @@ public class MySolrUtil {
             updateSolrClient.add(inputDocument);
             updateSolrClient.commit();
             inputDocument.clear();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void solrUpdate(String coreName,Object object){
+        String url = solrUrl + "/" + coreName;
+        SolrClient updateSolrClient = new ConcurrentUpdateSolrClient.Builder(url).withQueueSize(5).withThreadCount(5).build();
+        try {
+            updateSolrClient.addBean(object);
+            updateSolrClient.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void solrUpdate(String coreName,List<Object> list){
+        String url = solrUrl + "/" + coreName;
+        SolrClient updateSolrClient = new ConcurrentUpdateSolrClient.Builder(url).withQueueSize(5).withThreadCount(5).build();
+        try {
+            updateSolrClient.addBeans(list);
+            updateSolrClient.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
