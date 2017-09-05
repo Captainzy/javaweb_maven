@@ -112,6 +112,12 @@ public class MySolrUtil {
         }
     }
 
+    /**
+     * @author zouyang
+     * @date 2017/9/5 11:15
+     * @description 根据参数添加或修改solr信息
+     * @params
+     */
     public static void solrUpdate(String coreName, Map<String, String> paramsMap) {
         String url = solrUrl + "/" + coreName;
         SolrClient updateSolrClient = new ConcurrentUpdateSolrClient.Builder(url).withQueueSize(5).withThreadCount(5).build();
@@ -128,6 +134,12 @@ public class MySolrUtil {
         }
     }
 
+    /**
+     * @author zouyang
+     * @date 2017/9/5 11:14
+     * @description 根据JaveBean 对单个对象solr信息更新或添加
+     * @params
+     */
     public static void solrUpdate(String coreName,Object object){
         String url = solrUrl + "/" + coreName;
         SolrClient updateSolrClient = new ConcurrentUpdateSolrClient.Builder(url).withQueueSize(5).withThreadCount(5).build();
@@ -139,6 +151,12 @@ public class MySolrUtil {
         }
     }
 
+    /**
+     * @author zouyang
+     * @date 2017/9/5 11:13
+     * @description 使用javabean对多个对象添加或更新多个对象solr信息
+     * @params
+     */
     public static void solrUpdate(String coreName,List<Object> list){
         String url = solrUrl + "/" + coreName;
         SolrClient updateSolrClient = new ConcurrentUpdateSolrClient.Builder(url).withQueueSize(5).withThreadCount(5).build();
