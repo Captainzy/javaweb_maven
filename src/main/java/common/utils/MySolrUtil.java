@@ -50,6 +50,8 @@ public class MySolrUtil {
             int beginNum = (page.getPageNo() - 1) * page.getRowsPerPage();
             solrQuery.setStart(beginNum);
             solrQuery.setRows(page.getRowsPerPage());
+        } else {
+            page = new Page();
         }
         StringBuffer queryStr = new StringBuffer();
         queryStr.append("*:*");
@@ -58,8 +60,6 @@ public class MySolrUtil {
                 queryStr.append(" AND ");
                 queryStr.append(entry.getKey() + ":\"" + entry.getValue() + "\"");
             }
-        } else {
-            page = new Page();
         }
         if (fuzzyQueryParamsMap != null && !fuzzyQueryParamsMap.isEmpty()) {
             queryStr.append(" AND (");
