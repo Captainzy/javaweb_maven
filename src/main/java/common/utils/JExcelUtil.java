@@ -61,7 +61,7 @@ public class JExcelUtil {
         writeExcel(workbook, file, list);
     }
 
-    public static void writeExcel(Workbook workbook, File file, List<Map<String, Object>> list) {
+    private static void writeExcel(Workbook workbook, File file, List<Map<String, Object>> list) {
 
         try {
 
@@ -74,6 +74,9 @@ public class JExcelUtil {
                 int j = 0;
                 for (Map.Entry<String, Object> entry : list.get(0).entrySet()) {
                     Cell cell = row.createCell(j);
+                    //设置列宽
+                    sheet.setColumnWidth(j, 25 * 256);
+                    //设置值
                     cell.setCellValue(entry.getKey());
                     j++;
                 }
