@@ -19,36 +19,55 @@ import java.util.*;
 public class JExcelUtil {
     public static void writeXlsByHSSF(String dirPath, String fileName, List<Map<String, Object>> list) {
         Workbook workbook = new HSSFWorkbook();
-        writeExcel(workbook, dirPath, fileName, list);
-    }
-
-    public static void writeXlsxByXSSF(String dirPath, String fileName, List<Map<String, Object>> list) {
-        Workbook workbook = new XSSFWorkbook();
-        writeExcel(workbook, dirPath, fileName, list);
-    }
-
-    public static void writeExcel(Workbook workbook, String dirPath, String fileName, List<Map<String, Object>> list) {
         if (dirPath == null || "".equals(dirPath)) {
             throw new IllegalArgumentException("文件存放地址不能为空");
         }
         if (fileName == null || "".equals(fileName)) {
             throw new IllegalArgumentException("文件名不能为空");
         }
+        File file = new File(dirPath + "/" + fileName + ".xls");
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        writeExcel(workbook, file, list);
+    }
+
+    public static void writeXlsxByXSSF(String dirPath, String fileName, List<Map<String, Object>> list) {
+        Workbook workbook = new XSSFWorkbook();
+        if (dirPath == null || "".equals(dirPath)) {
+            throw new IllegalArgumentException("文件存放地址不能为空");
+        }
+        if (fileName == null || "".equals(fileName)) {
+            throw new IllegalArgumentException("文件名不能为空");
+        }
+        File file = new File(dirPath + "/" + fileName + ".xlsx");
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        writeExcel(workbook, file, list);
+    }
+
+    public static void writeExcel(Workbook workbook, File file, List<Map<String, Object>> list) {
+
         try {
-            File file = new File(dirPath + "/" + fileName + ".xls");
-            if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
-            }
-            if (!file.exists()) {
-                try {
-                    file.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
-            Sheet sheet = workbook.createSheet(fileName);
+            Sheet sheet = workbook.createSheet(file.getName());
             if (list != null && list.size() > 0) {
                 //插入所有列名到表格中，作为第一行
                 Row row = sheet.createRow(0);
@@ -91,5 +110,6 @@ public class JExcelUtil {
         String dirPath = "C:\\Users\\TZ\\Desktop\\";
         String fileName = "testPoi";
         writeXlsByHSSF(dirPath, fileName, list);
+        writeXlsxByXSSF(dirPath, fileName, list);
     }
 }
