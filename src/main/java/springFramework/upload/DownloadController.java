@@ -42,10 +42,7 @@ public class DownloadController {
 		//格式：headers.add("Content-Disposition", "attachment;filename=name");
 		headers.add("Content-Disposition", "attachment;filename="+fileName);
 		//当代码里面使用Content-Disposition来确保浏览器弹出下载对话框的时候。一定要确保没有做过关于禁止浏览器缓存的操作
-		headers.add("Pragma", "No-cache");
-		headers.add("Cache-Control", "No-cache");
-		headers.add("Expires", "0");
-		
+
 		ResponseEntity<byte[]> rsEntity = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers,HttpStatus.OK);
 		return rsEntity;
 	}
@@ -61,11 +58,8 @@ public class DownloadController {
 	@RequestMapping(value="/downloadFileByMethod_03")
 	public void downloadFileByMethod_03(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		File file = new File("C:\\Users\\TZ\\Desktop\\安全平台整改意见.docx");
-		response.setHeader("Pragma", "no-cache");  
-        response.setHeader("Cache-Control", "no-cache");  
-        response.setDateHeader("Expires", 0);  
-        response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);  
-        //浏览器支持的文件类型，一般会默认使用浏览器打开，比如txt、jpg等，会直接在浏览器中显示，如果需要提示用户保存，
+		response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+		//浏览器支持的文件类型，一般会默认使用浏览器打开，比如txt、jpg等，会直接在浏览器中显示，如果需要提示用户保存，
   		//就要利用Content-Disposition进行一下处理，关键在于一定要加上attachment
   		//格式：headers.add("Content-Disposition", "attachment;filename=name");
         //避免文件名乱码
