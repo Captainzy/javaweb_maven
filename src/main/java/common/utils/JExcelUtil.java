@@ -64,7 +64,6 @@ public class JExcelUtil {
     private static void writeExcel(Workbook workbook, File file, List<Map<String, Object>> list) {
 
         try {
-
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
             Sheet sheet = workbook.createSheet(file.getName());
